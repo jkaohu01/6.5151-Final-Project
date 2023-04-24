@@ -1,0 +1,16 @@
+Maps symbols used in the book to symbols used in our code. Note
+only remapped symbols which are callable anywhere (usually as procedures)
+are defined here. Sometimes our code deviates from symbols used in book
+but these are only local changes that don't matter system-wide.
+
+ρ -> real-component
+
+κ -> link-component
+
+map* -> differentiable-map
+
+dual* -> truncated-dual
+
+∇ -> gradient
+
+θ -> theta
