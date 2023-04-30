@@ -7,6 +7,8 @@ but these are only local changes that don't matter system-wide.
 
 κ -> link-component
 
+d -> scalar-leaf
+
 map* -> differentiable-map
 
 dual* -> truncated-dual
@@ -14,3 +16,25 @@ dual* -> truncated-dual
 ∇ -> gradient
 
 θ -> theta
+
+∇_{once} -> gradient-once 
+
+σ -> state-table
+
+∇_{σ} -> gradient-state
+
+∇_{σ}-list -> gradient-state-list
+
+∇_{σ}-vec -> gradient-state-vec
+
++^{0,0} (book) -> 0-0:+
+
++-0-0 (malt github repo) -> 0-0:+
+
+exp^{0} (book) -> 0:exp
+
+exp-0 (malt github repo) -> 0:exp
+
+<^{0,0} (book) -> 0-0:<
+
+<-0-0 (malt github repo) -> 0-0:<
