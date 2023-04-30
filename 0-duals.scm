@@ -8,7 +8,15 @@
   (define s:- (base-scheme '-))
   (define s:* (base-scheme '*))
   (define s:/ (base-scheme '/))
-  (define s:exp (base-scheme 'exp)))
+  (define s:exp (base-scheme 'exp))
+  (define s:< (base-scheme '<))
+  (define s:> (base-scheme '>))
+  (define s:<= (base-scheme '<=))
+  (define s:>= (base-scheme '>=))
+  (define s:= (base-scheme '=))
+  (define s:expt (base-scheme 'expt))
+  (define s:log (base-scheme 'log))
+  (define s:sqrt (base-scheme 'sqrt)))
 
 ;; Subtracts 1 from the numeric value
 (define (sub1 numeric-value)
@@ -16,9 +24,6 @@
   (s:- numeric-value 1))
 
 ;; Adds 1 to the numeric value
-;; This function should be used in place of the + operator
-;; because it will be overriden so here is a place where
-;; we can define the original + operator when needed
 (define (add1 numeric-value)
   (guarantee number? numeric-value add1)
   (s:+ numeric-value 1))
@@ -201,7 +206,6 @@ gradient state (σ) := a mapping between scalars and gradients such that every
   (cond
    ((scalar? y)
     (let ((link-procedure (link-component y)))
-      ;; TODO: replace the comment below with a more useful one
       ;; link procedure which increments by 1.0 the value associated with the
       ;l scalar y in the state-table
       (link-procedure y 1.0 state-table)))
@@ -355,7 +359,28 @@ gradient state (σ) := a mapping between scalars and gradients such that every
            (check-prim1-grad-func-types x accumulator 0:exp)
            ;; f = exp(x), df/dx = exp(x) 
            ;; must chain df/dx with accumulator through multiplication
+           ;; (df/dx * accumulator) = exp(x) * accumulator
            (s:* (s:exp x) accumulator))))
+
+;; produces procedure operating on single dual
+(define 0:sqrt
+  (prim1 s:sqrt
+         (lambda (x accumulator)
+           (check-prim1-grad-func-types x accumulator 0:sqrt)
+           ;; f = sqrt(x), df/dx = 1/(2 * sqrt(x))
+           ;; must chain df/dx with accumulator through multiplication
+           ;; (df/dx * accumulator) = 1/(2 * sqrt(x)) * accumulator
+           (s:* (s:/ 1.0 (s:* 2 (s:sqrt x))) accumulator))))
+
+;; produces procedure operating on single dual
+(define 0:log
+  (prim1 s:log
+         (lambda (x accumulator)
+           (check-prim1-grad-func-types x accumulator 0:log)
+           ;; f = ln(x) = log(x), df/dx = 1/x
+           ;; must chain df/dx with accumulator through multiplication
+           ;; (df/dx * accumulator) = 1/x * accumulator
+           (s:* (s:/ 1.0 x) accumulator))))
 
 ;; produces procedure operating on two duals
 (define 0-0:+
@@ -364,8 +389,31 @@ gradient state (σ) := a mapping between scalars and gradients such that every
            (check-prim2-grad-func-types x y accumulator 0-0:+)
            ;; f = x + y, df/dx = 1, df/dy = 1
            ;; must chain df/dx and df/dy with accumulator through multiplication
-           ;; (df/dx * accumulator) = accumulator, (df/dy * accumulator) = accumulator
+           ;; (df/dx * accumulator) = accumulator
+           ;; (df/dy * accumulator) = accumulator
            (values accumulator accumulator))))
+
+;; produces procedure operating on two duals
+(define 0-0:-
+  (prim2 s:-
+         (lambda (x y accumulator)
+           (check-prim2-grad-func-types x y accumulator 0-0:-)
+           ;; f = x - y, df/dx = 1, df/dy = -1
+           ;; must chain df/dx and df/dy with accumulator through multiplication
+           ;; (df/dx * accumulator) = accumulator
+           ;; (df/dy * accumulator) = -accumulator
+           (values accumulator (s:- accumulator)))))
+
+;; produces procedure operating on two duals
+(define 0-0:/
+  (prim2 s:/
+         (lambda (x y accumulator)
+           (check-prim2-grad-func-types x y accumulator 0-0:/)
+           ;; f = x/y, df/dx = 1/y, df/dy = -x/(y^2)
+           ;; must chain df/dx and df/dy with accumulator through multiplication
+           ;; (df/dx * accumulator) = 1/y * accumulator
+           ;; (df/dy * accumulator) = -x/(y^2) * accumulator
+           (values (s:* (s:/ 1.0 y) accumulator) (s:* (s:/ (s:- x) (s:* y y)) accumulator)))))
 
 ;; produces procedure operating on two duals
 (define 0-0:*
@@ -374,7 +422,22 @@ gradient state (σ) := a mapping between scalars and gradients such that every
            (check-prim2-grad-func-types x y accumulator 0-0:*)
            ;; f = x * y, df/dx = y, df/dy = x
            ;; must chain df/dx and df/dy with accumulator through multiplication
+           ;; (df/dx * accumulator) = y * accumulator
+           ;; (df/dy * accumulator) = x * accumulator
            (values (s:* y accumulator) (s:* x accumulator)))))
+
+;; produces procedure operating on two dual
+;; TODO: p. 373 of Little Learner may contain typo, in expt definition, see differences
+(define 0-0:expt
+  (prim2 s:expt
+         (lambda (x y accumulator)
+           (check-prim2-grad-func-types x y accumulator 0-0:expt)
+           ;; f = expt(x, y), df/dx = y * expt(x, y-1), df/dy = ln(x) * expt(x, y) = log(x) * expt(x, y)
+           ;; must chain df/dx with accumulator through multiplication
+           ;; (df/dx * accumulator) = y * expt(x, y-1) * accumulator
+           ;; (df/dy * accumulator) = log(x) * expt(x, y) * accumulator
+           (values (s:* (s:* y (s:expt x (s:- y 1))) accumulator)
+                   (s:* (s:* (s:log x) (s:expt x y)) accumulator)))))
 
 ;; helper for defining comparator functions
 (define (comparator f)
@@ -383,5 +446,44 @@ gradient state (σ) := a mapping between scalars and gradients such that every
     (guarantee scalar? y comparator)
     (f (real-component x) (real-component y))))
 
+;; produces procedure operating on two duals
+(define 0-0:<
+  (comparator s:<))
 
-;; Left off at p. 373 of "Little Learner"
+;; produces procedure operating on two duals
+(define 0-0:>
+  (comparator s:>))
+
+;; produces procedure operating on two duals
+(define 0-0:<=
+  (comparator s:<=))
+
+;; produces procedure operating on two duals
+(define 0-0:>=
+  (comparator s:>=))
+
+;; produces procedure operating on two duals
+(define 0-0:=
+  (comparator s:=))
+
+;;;=============================================
+;;; Tensors
+;;;=============================================
+
+(define tensor vector)
+
+(define (tensor? object)
+  (cond
+   ((scalar? object) #t)
+   ((vector? object) #t)
+   (else
+    #f)))
+
+(define (tref tensor-object index)
+  (guarantee tensor? tensor-object tref)
+  (guarantee scalar? tensor-object tref)
+  (vector-ref tensor-object (real-component index)))
+
+(define (tlen tensor-object)
+  (guarantee tensor? tensor-object tlen)
+  (vector-length tensor-object))
