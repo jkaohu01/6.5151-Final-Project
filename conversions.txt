@@ -1,0 +1,37 @@
+Maps symbols used in the book to symbols used in our code. Note
+only remapped symbols which are callable anywhere (usually as procedures)
+are defined here. Sometimes our code deviates from symbols used in book
+but these are only local changes that don't matter system-wide.
+
+ρ -> real-component
+
+κ -> link-component
+
+d -> scalar-leaf
+
+map* -> differentiable-map
+
+dual* -> truncated-dual
+
+∇ -> gradient
+
+θ -> theta
+
+∇_{once} -> gradient-once 
+
+σ -> state-table
+
+∇_{σ} -> gradient-state
+
+∇_{σ}-list -> gradient-state-list
+
+∇_{σ}-vec -> gradient-state-vec
+
+Arithmetic Operators & Generalizations:
+--------------------------------------
+
+book notation: +^{0,0}  malt github repo notation: +-0-0       -> our code notation: 0-0:+
+Generalization: (book) [symbol]^{0,0}  (malt repo) [symbol]-0-0     -> (our code) 0-0:[symbol]
+
+book notation: exp^{0}  malt github repo notation: exp-0       -> our code notation: 0:exp
+Generalization: (book) [symbol]^{0}    (malt repo) [symbol]-0       -> (our code) 0:[symbol]
