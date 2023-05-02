@@ -1,0 +1,44 @@
+(load "~/6.5151/6.5151-Final-Project/automatic-differentiation/0-duals.scm")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;Dual Tests
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;Setup
+
+(define dual0 0)
+
+(define k0
+  end-of-chain)
+
+(define dual1
+  (dual 1 k0))
+
+#|Should return #f|#
+
+(dual? 1)
+
+#|Should return #t|#
+
+(dual? dual1)
+
+#|Should return #t|#
+
+(eq? (real-component dual1) 1)
+
+#|Should return #t|#
+
+(eq? (link-component dual1) k0)
+
+#|Should return #t|#
+
+(eq? (real-component dual0) 0)
+
+#|Should return (0.0 1.0)|#
+
+(differentiable-map (lambda (scalar-leaf) (real-component scalar-leaf))
+		    (gradient-once dual1 (list dual0 dual1)))
+
+

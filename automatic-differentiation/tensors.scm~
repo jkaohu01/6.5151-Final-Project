@@ -1,0 +1,110 @@
+(load "~/6.5151/6.5151-Final-Project/automatic-differentiation/0-duals.scm")
+
+(define ref
+  (lambda (lst i)
+    (list-ref lst (real-component i))))
+
+(define refr
+  (lambda (lst i)
+    (drop lst (real-component i))))
+
+#|
+Tensor Representation
+|#
+
+(define tref
+  (lambda (t i)
+    (vector-reft (real-component i))))
+
+;;;tensor will just create a vector
+
+(define tensor vector)
+
+(define tlen vecor-length)
+
+(define tmap vector-map)
+
+(define list->tensor list->vector)
+
+
+(define tensor?
+  (lambda (t)
+    (cond
+     ((scalar? t) #t)
+     ((vector? t) #t)
+     (else #f))))
+
+(build-tensor
+ (lambda (s f)
+   (built-tensor f s '())))
+
+(define built-tensor
+  (lambda (f s idx)
+    (cond
+     ((= (length s) 1)
+      (build-vector (ref s 0)
+		    (lambda (i)
+		      (f (append idx (list i))))))
+     (else
+      (build-vector (ref s 0)
+		    (lambda (i)
+		      (built-tensor f (refr s 1) (append idx (list i)))))))))
+
+(define trefs
+  (lambda (t b)
+    (build-vector (length b)
+		  (lambda (i)
+		    (tref t (list-ref b i))))))
+
+#|
+Tensor Operations
+|#
+
+
+#|
+Shape of the tensor is a n size list
+Where the ith value is the size of the ith dimension of the tensor
+Scalar shape is empty list
+|#
+(define shape
+  (lambda (t)
+    (cond
+     ((scalar? t) '())
+     (else (cons (tlen t) (shape (tref t 0)))))))
+
+(define rank
+  (lambda (t)
+    (length (shape t))))
+
+(define size-of
+  (lambda (s)
+    (sized s 1)))
+
+(define sized
+  (lambda (s a)
+    (cond
+     ((null? s) a)
+     (else (sized (refr s 1) (* a(ref s 0)))))))
+
+#|Reshaping a Tensor|#
+
+(define reshape
+  (lambda (s t)
+    (cond
+     ((= (size-of s) (size-of (shape t)))
+      (reshape-tensor s t))
+     (else (error "cannot reshape")))))
+
+(define reshape-tensor
+  (lambda (s t)
+    (let ((t-strides (strides (shape t)))
+	  (s-strides (strides s)))
+      (build-tensor s
+		    (lambda (idx)
+		      (let ((t-idx
+			     (convert-idx t-strides s-strides idx)))
+			(deep-tref t t-idx)))))))
+
+
+				    
+
