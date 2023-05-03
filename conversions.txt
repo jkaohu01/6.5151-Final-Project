@@ -7,13 +7,13 @@ but these are only local changes that don't matter system-wide.
 
 κ -> link-component
 
-d -> scalar-leaf
+d -> scalar
 
 map* -> differentiable-map
 
 dual* -> truncated-dual
 
-∇ -> gradient
+∇ -> gradient-of (same as book)
 
 θ -> theta
 
