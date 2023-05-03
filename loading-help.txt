@@ -1,0 +1,21 @@
+Let <DIR> denote directory path where the 6.5151-Final-Project repository is located in.
+
+Files for this project should be stored in <DIR>/6.5151-Final-Project/sdf/deep-learning
+
+The deep-learning directory in sdf contains a load-spec file. In this file, put the
+names of any scheme files that should be loaded by (manage 'new 'deep-learning). See
+the current load-spec file for an example.
+
+Files for the project and be loaded by first loading the SDF manager with:
+
+(load "<DIR>/6.5151-Final-Project/sdf/manager/load")
+
+Then the files specified in the deep-learning load-spec can be loaded via:
+
+(manage 'new 'deep-learning)
+
+Other commands can be invoked like (manage 'defining-files '<name>) and
+(manange 'referring-files '<name>). However, for these to work after
+making changes to the software tree, you must first invoke (manage 'refresh-file-analysis).
+This can take a while to run because all the files in sdf are analyzed. Removing
+unecessary files from sdf is something that can improve the runtime.
