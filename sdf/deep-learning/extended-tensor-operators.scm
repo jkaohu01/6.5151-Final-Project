@@ -102,6 +102,29 @@ Tests:
 
 |#
 
+;; extending log operator to work on a single tensor
+;; log has base e like in standard scheme
+(define log
+  (ext1 log-0 0))
+
+#|
+Tests:
+(numerize (log #(1 2.718281828459045)))
+;Value: #(0 1.)
+
+|#
+
+;; extending exp operator to work on a single tensor
+(define exp
+  (ext1 exp-0 0))
+
+#|
+Tests:
+(numerize (exp #(0 1 2 3)))
+;Value: #(1 2.718281828459045 7.38905609893065 20.085536923187668)
+
+|#
+
 ;; Produces a function taking a single tensor as input and outputs a
 ;; tensor whose scalars are converted to 0.0
 (define zeroes
@@ -356,8 +379,27 @@ Tests:
 
 #|
 Tests:
+(numerize (/ #(10 20 30) #(10 10 10)))
+;Value: #(1 2 3)
+
 (numerize (/ #(10 20 30) #(2 5 3)))
 ;Value: #(5 4 10)
+
+|#
+
+(define expt
+  (ext2 expt-0-0 0 0))
+
+#|
+Tests:
+(numerize (expt #(0 1 2 3) 2))
+;Value: #(0 1 4 9)
+
+(numerize (expt #(0 1 2 3) #(3 3 3 3)))
+;Value: #(0 1 8 27)
+
+(numerize (expt #(0 1 2 3) #(3 3 2 3)))
+;Value: #(0 1 4 27)
 
 |#
 
