@@ -31,7 +31,7 @@ Value: 7
 ;; -----------------------------------------------------------
 ;; t: a tensor (all tensors are differentiables)
 (define (numerize t)
-  (guarantee tensor? t numerize)
+  (guarantee maybe-differentiable? t numerize)
   (differentiable-map real-component t))
 
 ;; Procedure for converting a quoted list of lists into tensors.
