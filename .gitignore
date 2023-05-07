@@ -1,3 +1,5 @@
 *.scm~
 *.scm#
 *.swp
+*.DS_Store
+personal-load-spec.scm

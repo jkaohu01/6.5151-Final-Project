@@ -1,0 +1,23 @@
+The standard scheme operators are defined in s:<operator-name> for
+some defined operators in primitive-scheme-operators.scm
+
+Use the standard scheme operators when you know the operation is
+being performed only on numbers. This stops unecessary duals and
+links from being created.
+
+The +, -, *, / operators as well as others are overriden to
+operate on tensors and duals. Use these when you know the operation
+is being performed on tensors or duals. This can be tricky since
+some duals are also just numbers. However, think about whether you
+want to store the history of this operation. If you want to store
+the history of this operation, use the overriden +, -, *, / operators
+but otherwise use the s:+, s:-, s:*, s:/ operators when you do not
+care about the history. The history will be stored in the form of
+links which will be used to calculate the gradient of the values
+resulting from using these history-storing operators.
+
+When in doubt, just use the +, -, *, / operators to store history.
+Better to have unecessary history than no history when needed. Also,
+if these values are temporary, they will be garbage collected so it
+will not matter. Also, sometimes a function expects a number as input
+so a warning/error will be raised if attempted to pass a dual as input.

@@ -22,4 +22,13 @@ along with SDF.  If not, see <https://www.gnu.org/licenses/>.
 |#
 ;; -*-Scheme-*-
 (define-load-spec deep-learning
-  "0-duals")
+  ;; the ordering of these matters, do not modify order.
+  ;; when adding new files, add them to the bottom
+  "error-messages.scm"
+  "primitive-scheme-operators.scm"
+  "duals.scm"
+  "primitive-dual-operators.scm"
+  "tensors.scm"
+  "gradients.scm"
+  "extended-tensor-operators.scm"
+  )

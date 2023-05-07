@@ -30,8 +30,8 @@ dual* -> truncated-dual
 Arithmetic Operators & Generalizations:
 --------------------------------------
 
-book notation: +^{0,0}  malt github repo notation: +-0-0       -> our code notation: 0-0:+
-Generalization: (book) [symbol]^{0,0}  (malt repo) [symbol]-0-0     -> (our code) 0-0:[symbol]
+book notation: +^{0,0}  malt github repo notation: +-0-0       -> our code notation: +-0-0
+Generalization: (book) [symbol]^{0,0}  (malt repo) [symbol]-0-0     -> (our code) [symbol]-0-0
 
-book notation: exp^{0}  malt github repo notation: exp-0       -> our code notation: 0:exp
-Generalization: (book) [symbol]^{0}    (malt repo) [symbol]-0       -> (our code) 0:[symbol]
+book notation: exp^{0}  malt github repo notation: exp-0       -> our code notation: exp-0
+Generalization: (book) [symbol]^{0}    (malt repo) [symbol]-0       -> (our code) [symbol]-0

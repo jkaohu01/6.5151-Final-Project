@@ -2427,33 +2427,160 @@
               reified-fail?
               reified-fail-procedure
               constant-executor)))
-  ((filename "deep-learning/0-duals")
+  ((filename "deep-learning/duals.scm")
    (free
-    (list-ref values
-              call-with-values
-              hash-table-set!
-              zero?
-              cdr
-              car
-              null?
-              object
-              vector-length
-              make-strong-eq-hash-table
-              hash-table-ref/default
-              hash-table?
-              gradient
-              map
-              error
-              list?
-              vector?
-              vector-ref
-              eq?
-              procedure?
-              vector
-              guarantee
-              number?
-              system-global-environment
-              environment-lookup))
+    (check-link-input-types hash-table-ref/default
+                            hash-table-set!
+                            s:+
+                            vector?
+                            vector-ref
+                            eq?
+                            vector
+                            procedure?
+                            number?
+                            guarantee))
+   (defined (dual dual? scalar? real-component link-component end-of-chain)))
+  ((filename "deep-learning/error-messages.scm")
+   (free (error-irritant/noise error))
+   (defined (bad-arg-error or-bad-args-error and-bad-args-error)))
+  ((filename "deep-learning/extended-tensor-operators.scm")
+   (free
+    (*-0-0 +-0-0
+           rank>
+           s:=
+           of-ranks?
+           shape
+           quotient
+           remainder
+           s:*
+           make-initialized-vector
+           zero?
+           tref
+           correct-rank-tensor?
+           sub1
+           tlen
+           sqrt-0
+           procedure?
+           number?
+           tmap
+           of-rank?
+           list?
+           make-vector
+           length
+           vector-set!
+           cdr
+           s:+
+           null?
+           bad-arg-error
+           list->vector
+           car
+           scalar?
+           guarantee
+           tensor?
+           real-component
+           differentiable-map
+           ref))
+   (defined
+    (line numerize
+          quoted->tensor
+          q->t
+          ext1
+          sqrt
+          zeroes
+          sum-1
+          summed
+          sum
+          flatten-2
+          flatten
+          ext2
+          desc
+          desc-t
+          desc-u
+          +
+          *
+          sqr
+          *-2-1
+          dot-product-1-1
+          dot-product)))
+  ((filename "deep-learning/gradients.scm")
+   (free
+    (number? vector-ref
+             zero?
+             cdr
+             car
+             null?
+             vector-length
+             sub1
+             link-component
+             make-strong-eq-hash-table
+             hash-table-ref/default
+             hash-table?
+             gradient
+             end-of-chain
+             real-component
+             dual
+             guarantee
+             procedure?
+             map
+             bad-arg-error
+             vector-map
+             list?
+             vector?
+             scalar?))
+   (defined
+    (maybe-differentiable? differentiable-map
+                           truncated-dual
+                           gradient-of
+                           state-table?
+                           gradient-once
+                           gradient-state
+                           gradient-state-list
+                           gradient-state-vec)))
+  ((filename "deep-learning/primitive-dual-operators.scm")
+   (free
+    (s:= s:>=
+         s:<=
+         s:>
+         s:<
+         s:expt
+         s:-
+         s:+
+         values
+         s:log
+         s:sqrt
+         s:/
+         s:exp
+         s:*
+         call-with-values
+         procedure?
+         dual
+         link-component
+         real-component
+         state-table?
+         number?
+         scalar?
+         guarantee))
+   (defined
+    (check-link-input-types prim1
+                            prim2
+                            check-prim1-grad-func-types
+                            check-prim2-grad-func-types
+                            exp-0
+                            sqrt-0
+                            log-0
+                            +-0-0
+                            --0-0
+                            /-0-0
+                            *-0-0
+                            expt-0-0
+                            comparator
+                            <-0-0
+                            >-0-0
+                            <=-0-0
+                            >=-0-0
+                            =-0-0)))
+  ((filename "deep-learning/primitive-scheme-operators.scm")
+   (free (guarantee number? system-global-environment environment-lookup))
    (defined
     (base-scheme s:+
                  s:-
@@ -2469,46 +2596,55 @@
                  s:log
                  s:sqrt
                  sub1
-                 add1
-                 dual
-                 dual?
-                 scalar?
-                 real-component
-                 link-component
-                 maybe-differentiable?
-                 differentiable-map
-                 truncated-dual
-                 gradient-of
-                 state-table?
-                 gradient-once
-                 gradient-state
-                 gradient-state-list
-                 gradient-state-vec
-                 check-link-input-types
-                 end-of-chain
-                 prim1
-                 prim2
-                 check-prim1-grad-func-types
-                 check-prim2-grad-func-types
-                 |0:exp|
-                 |0:sqrt|
-                 |0:log|
-                 |0-0:+|
-                 |0-0:-|
-                 |0-0:/|
-                 |0-0:*|
-                 |0-0:expt|
-                 comparator
-                 |0-0:<|
-                 |0-0:>|
-                 |0-0:<=|
-                 |0-0:>=|
-                 |0-0:=|
-                 tensor
-                 tensor?
-                 tref
-                 tlen
-                 ref)))
+                 add1)))
+  ((filename "deep-learning/tensors.scm")
+   (free
+    (procedure? for-each
+                vector-map
+                apply
+                or-bad-args-error
+                sub1
+                zero?
+                list
+                cons
+                bad-arg-error
+                add1
+                drop
+                list-ref
+                length
+                list?
+                list->vector
+                make-initialized-vector
+                vector-ref
+                vector-length
+                guarantee
+                number?
+                s:<=
+                real-component
+                s:<
+                not
+                scalar?
+                vector?
+                vector))
+   (defined
+    (tensor tensor?
+            tensor-above-rank-0?
+            scalar-within-len-bounds?
+            scalar-within-closed-interval?
+            tlen
+            tref
+            trefs
+            len
+            ref
+            refr
+            rank
+            ranked
+            shape
+            of-rank?
+            correct-rank-tensor?
+            rank>
+            of-ranks?
+            tmap)))
   ((filename "dependencies/support-layer")
    (free
     (n:number? n:zero?
@@ -6134,7 +6270,7 @@
    (referrers ()))
   ((name %unit-tag) (definers ("layers/units")) (referrers ()))
   ((name *)
-   (definers ())
+   (definers ("deep-learning/extended-tensor-operators.scm"))
    (referrers
     ("wrappers/units" "term-rewriting/rules"
                       "propagation/examples/hms-dms-radians"
@@ -6144,6 +6280,10 @@
                       "automatic-differentiation/derivatives"
                       "abstracting-a-domain/coords"
                       "abstracting-a-domain/checkers-shared")))
+  ((name *-0-0) (definers ("deep-learning/primitive-dual-operators.scm"))
+                (referrers ("deep-learning/extended-tensor-operators.scm")))
+  ((name *-2-1) (definers ("deep-learning/extended-tensor-operators.scm"))
+                (referrers ()))
   ((name *abort-process*) (definers ("propagation/scheduler")) (referrers ()))
   ((name *active-tags*) (definers ("automatic-differentiation/extractor"))
                         (referrers ()))
@@ -6218,7 +6358,7 @@
                            (referrers ()))
   ((name *unset*) (definers ("better-layering/extension")) (referrers ()))
   ((name +)
-   (definers ())
+   (definers ("deep-learning/extended-tensor-operators.scm"))
    (referrers
     ("wrappers/units" "unification/type-resolver"
                       "term-rewriting/rules"
@@ -6239,6 +6379,8 @@
                       "abstracting-a-domain/coords"
                       "abstracting-a-domain/checkers-shared"
                       "abstracting-a-domain/board")))
+  ((name +-0-0) (definers ("deep-learning/primitive-dual-operators.scm"))
+                (referrers ("deep-learning/extended-tensor-operators.scm")))
   ((name +->interval) (definers ("propagation/examples/intervals"))
                       (referrers ()))
   ((name +-like) (definers ("common/arith")) (referrers ()))
@@ -6260,6 +6402,8 @@
                       "automatic-differentiation/handlers"
                       "abstracting-a-domain/coords"
                       "abstracting-a-domain/board")))
+  ((name --0-0) (definers ("deep-learning/primitive-dual-operators.scm"))
+                (referrers ()))
   ((name --like) (definers ("common/arith")) (referrers ()))
   ((name ->environment) (definers ()) (referrers ("common/utils")))
   ((name ->interval) (definers ("propagation/examples/intervals"))
@@ -6274,19 +6418,8 @@
                       "automatic-differentiation/simplifier"
                       "automatic-differentiation/handlers"
                       "abstracting-a-domain/coords")))
-  ((name |0-0:*|) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name |0-0:+|) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name |0-0:-|) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name |0-0:/|) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name |0-0:<|) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name |0-0:<=|) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name |0-0:=|) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name |0-0:>|) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name |0-0:>=|) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name |0-0:expt|) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name |0:exp|) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name |0:log|) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name |0:sqrt|) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name /-0-0) (definers ("deep-learning/primitive-dual-operators.scm"))
+                (referrers ()))
   ((name :-pi/2) (definers ("propagation/examples/example-support"))
                  (referrers ("propagation/examples/intervals")))
   ((name :2pi) (definers ("propagation/examples/example-support"))
@@ -6322,6 +6455,8 @@
     ("interpreter-with-continuations/rtdata-extra"
      "better-layering/rtdata-extra"))
    (referrers ()))
+  ((name <-0-0) (definers ("deep-learning/primitive-dual-operators.scm"))
+                (referrers ()))
   ((name <=)
    (definers ())
    (referrers
@@ -6331,6 +6466,8 @@
      "continuations-to-amb/ambsch"
      "common/pretty-printer"
      "abstracting-a-domain/board")))
+  ((name <=-0-0) (definers ("deep-learning/primitive-dual-operators.scm"))
+                 (referrers ()))
   ((name <applicable-object-metadata>)
    (definers ("user-defined-types/values"))
    (referrers ()))
@@ -6401,6 +6538,8 @@
      "abstracting-a-domain/game"
      "abstracting-a-domain/coords"
      "abstracting-a-domain/checkers-shared")))
+  ((name =-0-0) (definers ("deep-learning/primitive-dual-operators.scm"))
+                (referrers ()))
   ((name >)
    (definers ())
    (referrers
@@ -6410,11 +6549,15 @@
                                  "design-of-the-matcher/matcher"
                                  "automatic-differentiation/simplifier"
                                  "automatic-differentiation/derivatives")))
+  ((name >-0-0) (definers ("deep-learning/primitive-dual-operators.scm"))
+                (referrers ()))
   ((name >=)
    (definers ())
    (referrers
     ("unification/type-resolver" "pattern-matching-on-graphs/chess-board"
                                  "continuations-to-amb/ambsch")))
+  ((name >=-0-0) (definers ("deep-learning/primitive-dual-operators.scm"))
+                 (referrers ()))
   ((name a:advance) (definers ("exploratory-behavior/analyze"))
                     (referrers ("exploratory-behavior/repl")))
   ((name a:analyze) (definers ("exploratory-behavior/analyze"))
@@ -6489,7 +6632,8 @@
                                  (referrers ()))
   ((name add-vista!) (definers ("user-defined-types/adventure-objects"))
                      (referrers ("user-defined-types/adventure-world")))
-  ((name add1) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name add1) (definers ("deep-learning/primitive-scheme-operators.scm"))
+               (referrers ("deep-learning/tensors.scm")))
   ((name address-index?) (definers ("pattern-matching-on-graphs/chess-board"))
                          (referrers ()))
   ((name address-x) (definers ("pattern-matching-on-graphs/chess-board"))
@@ -6704,6 +6848,8 @@
      "better-layering/analyze"))
    (referrers ()))
   ((name ancestry) (definers ("propagation/hierarchy")) (referrers ()))
+  ((name and-bad-args-error) (definers ("deep-learning/error-messages.scm"))
+                             (referrers ()))
   ((name annotate-expr) (definers ("unification/type-resolver"))
                         (referrers ()))
   ((name annotate-program) (definers ("unification/type-resolver"))
@@ -6861,6 +7007,7 @@
                       "generic-interpreter/shared-rtdata"
                       "dependencies/support-sets"
                       "dependencies/support-layer"
+                      "deep-learning/tensors.scm"
                       "compiling-to-execution-procedures/executors"
                       "common/utils"
                       "common/simple-tests"
@@ -7047,6 +7194,12 @@
    (referrers ()))
   ((name backward-direction) (definers ("abstracting-a-domain/coords"))
                              (referrers ()))
+  ((name bad-arg-error)
+   (definers ("deep-learning/error-messages.scm"))
+   (referrers
+    ("deep-learning/tensors.scm"
+     "deep-learning/gradients.scm"
+     "deep-learning/extended-tensor-operators.scm")))
   ((name bag:holder) (definers ("user-defined-types/adventure-objects"))
                      (referrers ()))
   ((name bag?) (definers ("user-defined-types/adventure-objects"))
@@ -7071,7 +7224,9 @@
                               "dependencies/support-layer")))
   ((name base-merge-handler) (definers ("better-layering/extension"))
                              (referrers ()))
-  ((name base-scheme) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name base-scheme)
+   (definers ("deep-learning/primitive-scheme-operators.scm"))
+   (referrers ()))
   ((name base-value)
    (definers ("better-layering/layered-data"))
    (referrers
@@ -7361,11 +7516,12 @@
   ((name call-with-values)
    (definers ())
    (referrers
-    ("user-defined-types/operations" "unification/type-resolver"
-                                     "propagation/search"
-                                     "deep-learning/0-duals"
-                                     "common/simple-tests"
-                                     "combinators/function-combinators")))
+    ("user-defined-types/operations"
+     "unification/type-resolver"
+     "propagation/search"
+     "deep-learning/primitive-dual-operators.scm"
+     "common/simple-tests"
+     "combinators/function-combinators")))
   ((name call/cc)
    (definers
     ("interpreter-with-continuations/rtdata-extra"
@@ -7435,7 +7591,8 @@
      "exploratory-behavior/analyze"
      "design-of-the-matcher/matcher"
      "dependencies/support-sets"
-     "deep-learning/0-duals"
+     "deep-learning/gradients.scm"
+     "deep-learning/extended-tensor-operators.scm"
      "continuations/analyze-extra"
      "continuations-to-amb/deque"
      "compiling-to-execution-procedures/executors"
@@ -7536,7 +7693,8 @@
      "exploratory-behavior/analyze"
      "design-of-the-matcher/matcher"
      "dependencies/support-sets"
-     "deep-learning/0-duals"
+     "deep-learning/gradients.scm"
+     "deep-learning/extended-tensor-operators.scm"
      "continuations-to-amb/deque"
      "continuations-to-amb/ambsch"
      "compiling-to-execution-procedures/executors"
@@ -7608,12 +7766,15 @@
    (referrers ()))
   ((name check-executor-args) (definers ("exploratory-behavior/analyze"))
                               (referrers ()))
-  ((name check-link-input-types) (definers ("deep-learning/0-duals"))
-                                 (referrers ()))
-  ((name check-prim1-grad-func-types) (definers ("deep-learning/0-duals"))
-                                      (referrers ()))
-  ((name check-prim2-grad-func-types) (definers ("deep-learning/0-duals"))
-                                      (referrers ()))
+  ((name check-link-input-types)
+   (definers ("deep-learning/primitive-dual-operators.scm"))
+   (referrers ("deep-learning/duals.scm")))
+  ((name check-prim1-grad-func-types)
+   (definers ("deep-learning/primitive-dual-operators.scm"))
+   (referrers ()))
+  ((name check-prim2-grad-func-types)
+   (definers ("deep-learning/primitive-dual-operators.scm"))
+   (referrers ()))
   ((name check-repl-initialized)
    (definers
     ("interpreter-with-continuations/initialization"
@@ -7727,8 +7888,9 @@
   ((name combined-arithmetic)
    (definers ("combining-arithmetics/standard-arith"))
    (referrers ()))
-  ((name comparator) (definers ("deep-learning/0-duals" "common/arith"))
-                     (referrers ()))
+  ((name comparator)
+   (definers ("deep-learning/primitive-dual-operators.scm" "common/arith"))
+   (referrers ()))
   ((name complement) (definers ("common/predicates"))
                      (referrers ("unification/unify" "layers/layered-data")))
   ((name complex-compound-procedure?)
@@ -7914,6 +8076,7 @@
                       "design-of-the-matcher/matcher"
                       "dependencies/support-sets"
                       "dependencies/support-layer"
+                      "deep-learning/tensors.scm"
                       "continuations-to-amb/deque"
                       "continuations-to-amb/ambsch"
                       "compiling-to-execution-procedures/executors"
@@ -8009,6 +8172,9 @@
     ("abstracting-a-domain/piece" "abstracting-a-domain/checkers-shared"
                                   "abstracting-a-domain/checkers-original"
                                   "abstracting-a-domain/board")))
+  ((name correct-rank-tensor?)
+   (definers ("deep-learning/tensors.scm"))
+   (referrers ("deep-learning/extended-tensor-operators.scm")))
   ((name cos) (definers ())
               (referrers ("automatic-differentiation/handlers")))
   ((name cos-interval) (definers ("propagation/examples/intervals"))
@@ -8345,6 +8511,12 @@
    (referrers ()))
   ((name derivative) (definers ("automatic-differentiation/derivatives"))
                      (referrers ()))
+  ((name desc) (definers ("deep-learning/extended-tensor-operators.scm"))
+               (referrers ()))
+  ((name desc-t) (definers ("deep-learning/extended-tensor-operators.scm"))
+                 (referrers ()))
+  ((name desc-u) (definers ("deep-learning/extended-tensor-operators.scm"))
+                 (referrers ()))
   ((name diagonal-directions)
    (definers ("abstracting-a-domain/coords"))
    (referrers ("abstracting-a-domain/checkers-shared")))
@@ -8425,8 +8597,9 @@
                       (referrers ()))
   ((name diff:unary-proc) (definers ("automatic-differentiation/handlers"))
                           (referrers ()))
-  ((name differentiable-map) (definers ("deep-learning/0-duals"))
-                             (referrers ()))
+  ((name differentiable-map)
+   (definers ("deep-learning/gradients.scm"))
+   (referrers ("deep-learning/extended-tensor-operators.scm")))
   ((name differential) (definers ("automatic-differentiation/utils"))
                        (referrers ()))
   ((name differential-tag)
@@ -8501,16 +8674,27 @@
     ("interpreter-with-continuations/repl" "exploratory-behavior/repl"
                                            "better-layering/repl"))
    (referrers ()))
+  ((name dot-product)
+   (definers ("deep-learning/extended-tensor-operators.scm"))
+   (referrers ()))
+  ((name dot-product-1-1)
+   (definers ("deep-learning/extended-tensor-operators.scm"))
+   (referrers ()))
   ((name dot-product-maker) (definers ("user-defined-types/vector-arith"))
                             (referrers ()))
   ((name dp) (definers ("common/pretty-printer")) (referrers ()))
-  ((name drop) (definers ()) (referrers ("common/utils")))
+  ((name drop) (definers ())
+               (referrers ("deep-learning/tensors.scm" "common/utils")))
   ((name drop-thing) (definers ("user-defined-types/adventure-world"))
                      (referrers ()))
   ((name drop-thing!) (definers ("user-defined-types/adventure-objects"))
                       (referrers ("user-defined-types/adventure-world")))
-  ((name dual) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name dual?) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name dual)
+   (definers ("deep-learning/duals.scm"))
+   (referrers
+    ("deep-learning/primitive-dual-operators.scm"
+     "deep-learning/gradients.scm")))
+  ((name dual?) (definers ("deep-learning/duals.scm")) (referrers ()))
   ((name duplicate-factors?)
    (definers ("automatic-differentiation/replace-dx-differential"))
    (referrers ()))
@@ -8534,7 +8718,8 @@
   ((name enable-debugging)
    (definers ("user-defined-types/adventure-substrate"))
    (referrers ()))
-  ((name end-of-chain) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name end-of-chain) (definers ("deep-learning/duals.scm"))
+                       (referrers ("deep-learning/gradients.scm")))
   ((name end-of-layers?) (definers ("better-layering/extension"))
                          (referrers ()))
   ((name endo-function-predicate-domain)
@@ -8563,9 +8748,9 @@
   ((name environment-lookup)
    (definers ())
    (referrers
-    ("deep-learning/0-duals" "common/utils"
-                             "common/package"
-                             "common/operators")))
+    ("deep-learning/primitive-scheme-operators.scm" "common/utils"
+                                                    "common/package"
+                                                    "common/operators")))
   ((name environment-parent) (definers ("generic-interpreter/shared-rtdata"))
                              (referrers ()))
   ((name environment-values) (definers ("generic-interpreter/shared-rtdata"))
@@ -8634,7 +8819,7 @@
                       "design-of-the-matcher/general"
                       "dependencies/support-sets"
                       "dependencies/support-layer"
-                      "deep-learning/0-duals"
+                      "deep-learning/duals.scm"
                       "continuations/analyze-extra"
                       "continuations-to-amb/deque"
                       "compiling-to-execution-procedures/executors"
@@ -8779,7 +8964,7 @@
                       "exploratory-behavior/analyze"
                       "design-of-the-matcher/matcher"
                       "design-of-the-matcher/general"
-                      "deep-learning/0-duals"
+                      "deep-learning/error-messages.scm"
                       "continuations/analyze-extra"
                       "continuations-to-amb/deque"
                       "compiling-to-execution-procedures/analyze"
@@ -8815,6 +9000,9 @@
   ((name error-generic-procedure-handler)
    (definers ("common/generic-procedures"))
    (referrers ()))
+  ((name error-irritant/noise)
+   (definers ())
+   (referrers ("deep-learning/error-messages.scm")))
   ((name error:not-a)
    (definers ("common/predicates"))
    (referrers
@@ -8931,6 +9119,8 @@
                      (referrers ()))
   ((name exp) (definers ())
               (referrers ("automatic-differentiation/handlers")))
+  ((name exp-0) (definers ("deep-learning/primitive-dual-operators.scm"))
+                (referrers ()))
   ((name exp-interval) (definers ("propagation/examples/intervals"))
                        (referrers ()))
   ((name expand-disjunct-predicate)
@@ -8955,6 +9145,12 @@
    (referrers
     ("automatic-differentiation/simplifier"
      "automatic-differentiation/handlers")))
+  ((name expt-0-0) (definers ("deep-learning/primitive-dual-operators.scm"))
+                   (referrers ()))
+  ((name ext1) (definers ("deep-learning/extended-tensor-operators.scm"))
+               (referrers ()))
+  ((name ext2) (definers ("deep-learning/extended-tensor-operators.scm"))
+               (referrers ()))
   ((name extend-arithmetic)
    (definers ("common/arith"))
    (referrers
@@ -9115,6 +9311,10 @@
                 (referrers ("generic-interpreter/shared-rtdata")))
   ((name fix:=) (definers ())
                 (referrers ("generic-interpreter/shared-rtdata")))
+  ((name flatten) (definers ("deep-learning/extended-tensor-operators.scm"))
+                  (referrers ()))
+  ((name flatten-2) (definers ("deep-learning/extended-tensor-operators.scm"))
+                    (referrers ()))
   ((name flip-coin) (definers ("user-defined-types/adventure-substrate"))
                     (referrers ("user-defined-types/adventure-objects")))
   ((name flip-coords) (definers ("abstracting-a-domain/board"))
@@ -9147,6 +9347,7 @@
      "pattern-matching-on-graphs/chess-board"
      "layers/units"
      "generic-procedures/generic-arith"
+     "deep-learning/tensors.scm"
      "continuations-to-amb/ambsch"
      "common/utils"
      "common/simple-tests"
@@ -9580,13 +9781,16 @@
   ((name good-enuf?) (definers ("propagation/examples/example-support"))
                      (referrers ()))
   ((name grab-segment) (definers ("unification/unify")) (referrers ()))
-  ((name gradient) (definers ()) (referrers ("deep-learning/0-duals")))
-  ((name gradient-of) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name gradient-once) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name gradient-state) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name gradient-state-list) (definers ("deep-learning/0-duals"))
+  ((name gradient) (definers ()) (referrers ("deep-learning/gradients.scm")))
+  ((name gradient-of) (definers ("deep-learning/gradients.scm"))
+                      (referrers ()))
+  ((name gradient-once) (definers ("deep-learning/gradients.scm"))
+                        (referrers ()))
+  ((name gradient-state) (definers ("deep-learning/gradients.scm"))
+                         (referrers ()))
+  ((name gradient-state-list) (definers ("deep-learning/gradients.scm"))
                               (referrers ()))
-  ((name gradient-state-vec) (definers ("deep-learning/0-duals"))
+  ((name gradient-state-vec) (definers ("deep-learning/gradients.scm"))
                              (referrers ()))
   ((name graph-edge-predicate) (definers ("pattern-matching-on-graphs/graph"))
                                (referrers ()))
@@ -9643,7 +9847,12 @@
                       "interpreter-with-continuations/rtdata-extra"
                       "generic-interpreter/shared-rtdata"
                       "dependencies/support-sets"
-                      "deep-learning/0-duals"
+                      "deep-learning/tensors.scm"
+                      "deep-learning/primitive-scheme-operators.scm"
+                      "deep-learning/primitive-dual-operators.scm"
+                      "deep-learning/gradients.scm"
+                      "deep-learning/extended-tensor-operators.scm"
+                      "deep-learning/duals.scm"
                       "continuations/analyze-extra"
                       "continuations-to-amb/deque"
                       "common/utils"
@@ -9708,7 +9917,8 @@
   ((name hash-table-ref/default)
    (definers ())
    (referrers
-    ("wrappers/units" "deep-learning/0-duals"
+    ("wrappers/units" "deep-learning/gradients.scm"
+                      "deep-learning/duals.scm"
                       "common/predicate-counter"
                       "combinators/function-combinators"
                       "automatic-differentiation/utils")))
@@ -9716,7 +9926,7 @@
    (definers ())
    (referrers
     ("wrappers/units" "user-defined-types/tags"
-                      "deep-learning/0-duals"
+                      "deep-learning/duals.scm"
                       "common/collections"
                       "combinators/function-combinators"
                       "automatic-differentiation/utils")))
@@ -9726,7 +9936,8 @@
                             (referrers ("propagation/premises")))
   ((name hash-table/intern!) (definers ())
                              (referrers ("propagation/premises")))
-  ((name hash-table?) (definers ()) (referrers ("deep-learning/0-duals")))
+  ((name hash-table?) (definers ())
+                      (referrers ("deep-learning/gradients.scm")))
   ((name have-compound-operator-registrar?)
    (definers ("user-defined-types/predicates"))
    (referrers ()))
@@ -10134,6 +10345,7 @@
                        (referrers ()))
   ((name left-direction) (definers ("abstracting-a-domain/coords"))
                          (referrers ()))
+  ((name len) (definers ("deep-learning/tensors.scm")) (referrers ()))
   ((name length)
    (definers ())
    (referrers
@@ -10156,6 +10368,8 @@
      "exploratory-behavior/analyze"
      "design-of-the-matcher/matcher"
      "dependencies/support-layer"
+     "deep-learning/tensors.scm"
+     "deep-learning/extended-tensor-operators.scm"
      "continuations/analyze-extra"
      "compiling-to-execution-procedures/analyze"
      "common/utils"
@@ -10218,7 +10432,13 @@
      "better-layering/analyze")))
   ((name lexical-reference) (definers ())
                             (referrers ("generic-interpreter/shared-rtdata")))
-  ((name link-component) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name line) (definers ("deep-learning/extended-tensor-operators.scm"))
+               (referrers ()))
+  ((name link-component)
+   (definers ("deep-learning/duals.scm"))
+   (referrers
+    ("deep-learning/primitive-dual-operators.scm"
+     "deep-learning/gradients.scm")))
   ((name list)
    (definers ())
    (referrers
@@ -10267,6 +10487,7 @@
                       "exploratory-behavior/analyze"
                       "design-of-the-matcher/matcher"
                       "dependencies/support-layer"
+                      "deep-learning/tensors.scm"
                       "continuations/analyze-extra"
                       "continuations-to-amb/ambsch"
                       "compiling-to-execution-procedures/executors"
@@ -10312,8 +10533,12 @@
                            (referrers ()))
   ((name list->string) (definers ())
                        (referrers ("regular-expressions/regexp")))
-  ((name list->vector) (definers ())
-                       (referrers ("user-defined-types/vector-arith")))
+  ((name list->vector)
+   (definers ())
+   (referrers
+    ("user-defined-types/vector-arith"
+     "deep-learning/tensors.scm"
+     "deep-learning/extended-tensor-operators.scm")))
   ((name list-copy)
    (definers ())
    (referrers ("propagation/scheduler" "pattern-matching-on-graphs/graph")))
@@ -10340,7 +10565,7 @@
     ("user-defined-types/adventure-substrate"
      "propagation/search"
      "pattern-matching-on-graphs/chess-board"
-     "deep-learning/0-duals"
+     "deep-learning/tensors.scm"
      "common/utils"
      "combinators/function-combinators"
      "abstracting-a-domain/game-repl"
@@ -10368,7 +10593,9 @@
                          "generic-interpreter/shared-syntax"
                          "design-of-the-matcher/matcher"
                          "dependencies/support-sets"
-                         "deep-learning/0-duals"
+                         "deep-learning/tensors.scm"
+                         "deep-learning/gradients.scm"
+                         "deep-learning/extended-tensor-operators.scm"
                          "compiling-to-execution-procedures/executors"
                          "common/utils"
                          "common/match-utils")))
@@ -10396,6 +10623,8 @@
                            (referrers ()))
   ((name log) (definers ())
               (referrers ("automatic-differentiation/handlers")))
+  ((name log-0) (definers ("deep-learning/primitive-dual-operators.scm"))
+                (referrers ()))
   ((name log-interval) (definers ("propagation/examples/intervals"))
                        (referrers ()))
   ((name look-around) (definers ("user-defined-types/adventure-objects"))
@@ -10662,7 +10891,9 @@
    (referrers ()))
   ((name make-initialized-vector)
    (definers ())
-   (referrers ("automatic-differentiation/extractor")))
+   (referrers
+    ("deep-learning/tensors.scm" "deep-learning/extended-tensor-operators.scm"
+                                 "automatic-differentiation/extractor")))
   ((name make-installable-operation-procedure)
    (definers ("user-defined-types/operations" "common/operations"))
    (referrers ("common/arith")))
@@ -10864,7 +11095,7 @@
                             (referrers ()))
   ((name make-strong-eq-hash-table)
    (definers ())
-   (referrers ("deep-learning/0-duals" "common/utils")))
+   (referrers ("deep-learning/gradients.scm" "common/utils")))
   ((name make-student) (definers ("user-defined-types/adventure-objects"))
                        (referrers ("user-defined-types/adventure-world")))
   ((name make-subsetting-dispatch-store-maker)
@@ -10905,6 +11136,9 @@
   ((name make-unit-conversion-record) (definers ("wrappers/units"))
                                       (referrers ()))
   ((name make-value-set) (definers ("propagation/value-sets")) (referrers ()))
+  ((name make-vector)
+   (definers ())
+   (referrers ("deep-learning/extended-tensor-operators.scm")))
   ((name make-vector-arithmetic)
    (definers ("user-defined-types/vector-arith"))
    (referrers ()))
@@ -10960,7 +11194,7 @@
                       "design-of-the-matcher/matcher"
                       "dependencies/support-sets"
                       "dependencies/support-layer"
-                      "deep-learning/0-duals"
+                      "deep-learning/gradients.scm"
                       "continuations-to-amb/ambsch"
                       "compiling-to-execution-procedures/analyze"
                       "common/utils"
@@ -11179,7 +11413,7 @@
   ((name maximal-factor)
    (definers ("automatic-differentiation/handlers"))
    (referrers ("automatic-differentiation/literal-functions")))
-  ((name maybe-differentiable?) (definers ("deep-learning/0-duals"))
+  ((name maybe-differentiable?) (definers ("deep-learning/gradients.scm"))
                                 (referrers ()))
   ((name maybe-grab-segment) (definers ("unification/unify")) (referrers ()))
   ((name maybe-kick-out) (definers ("propagation/search")) (referrers ()))
@@ -11631,6 +11865,7 @@
      "exploratory-behavior/analyze"
      "design-of-the-matcher/general"
      "dependencies/support-sets"
+     "deep-learning/tensors.scm"
      "continuations/analyze-extra"
      "continuations-to-amb/deque"
      "continuations-to-amb/ambsch"
@@ -11697,7 +11932,8 @@
      "exploratory-behavior/analyze"
      "design-of-the-matcher/matcher"
      "dependencies/support-sets"
-     "deep-learning/0-duals"
+     "deep-learning/gradients.scm"
+     "deep-learning/extended-tensor-operators.scm"
      "continuations/analyze-extra"
      "continuations-to-amb/ambsch"
      "compiling-to-execution-procedures/analyze"
@@ -11728,7 +11964,12 @@
      "term-rewriting/rules"
      "layers/units"
      "generic-interpreter/shared-syntax"
-     "deep-learning/0-duals"
+     "deep-learning/tensors.scm"
+     "deep-learning/primitive-scheme-operators.scm"
+     "deep-learning/primitive-dual-operators.scm"
+     "deep-learning/gradients.scm"
+     "deep-learning/extended-tensor-operators.scm"
+     "deep-learning/duals.scm"
      "common/predicate-metadata"
      "common/operators"
      "common/numeric-arith"
@@ -11754,7 +11995,8 @@
   ((name numerical-simplifier-wrapper)
    (definers ("automatic-differentiation/utils"))
    (referrers ()))
-  ((name object) (definers ()) (referrers ("deep-learning/0-duals")))
+  ((name numerize) (definers ("deep-learning/extended-tensor-operators.scm"))
+                   (referrers ()))
   ((name object->description) (definers ("common/predicates")) (referrers ()))
   ((name object->string) (definers ("common/pretty-printer"))
                          (referrers ("propagation/premises")))
@@ -11785,6 +12027,12 @@
   ((name occupied-by) (definers ("pattern-matching-on-graphs/chess-moves"))
                       (referrers ()))
   ((name odd?) (definers ()) (referrers ("common/utils" "common/indexes")))
+  ((name of-rank?)
+   (definers ("deep-learning/tensors.scm"))
+   (referrers ("deep-learning/extended-tensor-operators.scm")))
+  ((name of-ranks?)
+   (definers ("deep-learning/tensors.scm"))
+   (referrers ("deep-learning/extended-tensor-operators.scm")))
   ((name offset*) (definers ("abstracting-a-domain/coords"))
                   (referrers ("abstracting-a-domain/pmove")))
   ((name offset->direction) (definers ("abstracting-a-domain/coords"))
@@ -11882,6 +12130,8 @@
                              (referrers ("user-defined-types/operations")))
   ((name operator?) (definers ("common/operators"))
                     (referrers ("layers/units" "common/operations")))
+  ((name or-bad-args-error) (definers ("deep-learning/error-messages.scm"))
+                            (referrers ("deep-learning/tensors.scm")))
   ((name ordered-intersect)
    (definers ("automatic-differentiation/utils"))
    (referrers ("automatic-differentiation/derivatives")))
@@ -12436,8 +12686,10 @@
   ((name pretty-print) (definers ("common/pretty-printer")) (referrers ()))
   ((name previous-pmove) (definers ("abstracting-a-domain/pmove"))
                          (referrers ()))
-  ((name prim1) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name prim2) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name prim1) (definers ("deep-learning/primitive-dual-operators.scm"))
+                (referrers ()))
+  ((name prim2) (definers ("deep-learning/primitive-dual-operators.scm"))
+                (referrers ()))
   ((name primitive-or-simple-procedure?)
    (definers
     ("interpreter-with-continuations/analyze" "better-layering/analyze"))
@@ -12544,7 +12796,11 @@
                                  "interpreter-with-continuations/analyze"
                                  "generic-interpreter/shared-rtdata"
                                  "exploratory-behavior/rtdata"
-                                 "deep-learning/0-duals"
+                                 "deep-learning/tensors.scm"
+                                 "deep-learning/primitive-dual-operators.scm"
+                                 "deep-learning/gradients.scm"
+                                 "deep-learning/extended-tensor-operators.scm"
+                                 "deep-learning/duals.scm"
                                  "common/operations"
                                  "common/applicability"
                                  "combining-arithmetics/standard-arith"
@@ -12640,9 +12896,14 @@
                         (referrers ()))
   ((name pythagorean-4) (definers ("propagation/examples/example-support"))
                         (referrers ()))
+  ((name q->t) (definers ("deep-learning/extended-tensor-operators.scm"))
+               (referrers ()))
   ((name quotation-text) (definers ("common/simple-tests")) (referrers ()))
   ((name quote-bracketed-contents) (definers ("regular-expressions/regexp"))
                                    (referrers ()))
+  ((name quoted->tensor)
+   (definers ("deep-learning/extended-tensor-operators.scm"))
+   (referrers ()))
   ((name quoted?)
    (definers ("generic-interpreter/shared-syntax"))
    (referrers
@@ -12651,8 +12912,11 @@
      "exploratory-behavior/analyze"
      "compiling-to-execution-procedures/analyze"
      "better-layering/analyze")))
-  ((name quotient) (definers ())
-                   (referrers ("common/utils" "common/indexes")))
+  ((name quotient)
+   (definers ())
+   (referrers
+    ("deep-learning/extended-tensor-operators.scm" "common/utils"
+                                                   "common/indexes")))
   ((name r:alt) (definers ("regular-expressions/regexp")) (referrers ()))
   ((name r:bol) (definers ("regular-expressions/regexp")) (referrers ()))
   ((name r:char-from) (definers ("regular-expressions/regexp"))
@@ -12690,6 +12954,10 @@
      "user-defined-types/adventure-objects")))
   ((name random-number) (definers ("user-defined-types/adventure-substrate"))
                         (referrers ("user-defined-types/adventure-objects")))
+  ((name rank) (definers ("deep-learning/tensors.scm")) (referrers ()))
+  ((name rank>) (definers ("deep-learning/tensors.scm"))
+                (referrers ("deep-learning/extended-tensor-operators.scm")))
+  ((name ranked) (definers ("deep-learning/tensors.scm")) (referrers ()))
   ((name rational?) (definers ("user-defined-types/tags")) (referrers ()))
   ((name read)
    (definers ())
@@ -12709,7 +12977,13 @@
                              (referrers ()))
   ((name real->diff-terms) (definers ("automatic-differentiation/utils"))
                            (referrers ()))
-  ((name real-component) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name real-component)
+   (definers ("deep-learning/duals.scm"))
+   (referrers
+    ("deep-learning/tensors.scm"
+     "deep-learning/primitive-dual-operators.scm"
+     "deep-learning/gradients.scm"
+     "deep-learning/extended-tensor-operators.scm")))
   ((name real?) (definers ("user-defined-types/tags"))
                 (referrers ("propagation/examples/intervals")))
   ((name reason-args) (definers ("propagation/reasons")) (referrers ()))
@@ -12793,11 +13067,13 @@
                           "compiling-to-execution-procedures/analyze"
                           "common/utils"
                           "better-layering/analyze")))
-  ((name ref) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name ref) (definers ("deep-learning/tensors.scm"))
+              (referrers ("deep-learning/extended-tensor-operators.scm")))
   ((name reflect-ew) (definers ("pattern-matching-on-graphs/chess-board"))
                      (referrers ("pattern-matching-on-graphs/chess-moves")))
   ((name reflect-ns) (definers ("pattern-matching-on-graphs/chess-board"))
                      (referrers ()))
+  ((name refr) (definers ("deep-learning/tensors.scm")) (referrers ()))
   ((name register-compound-predicate!)
    (definers ("user-defined-types/predicates" "common/predicate-metadata"))
    (referrers ("common/predicates")))
@@ -12855,6 +13131,9 @@
                            "propagation/premises"
                            "propagation/cells")))
   ((name relations?) (definers ("propagation/hierarchy")) (referrers ()))
+  ((name remainder)
+   (definers ())
+   (referrers ("deep-learning/extended-tensor-operators.scm")))
   ((name remove)
    (definers ())
    (referrers
@@ -12962,19 +13241,48 @@
                             (referrers ("regular-expressions/regexp")))
   ((name run-timed-test) (definers ("propagation/examples/time"))
                          (referrers ()))
-  ((name s:*) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name s:+) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name s:-) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name s:/) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name s:<) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name s:<=) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name s:=) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name s:>) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name s:>=) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name s:exp) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name s:expt) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name s:log) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name s:sqrt) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name s:*)
+   (definers ("deep-learning/primitive-scheme-operators.scm"))
+   (referrers
+    ("deep-learning/primitive-dual-operators.scm"
+     "deep-learning/extended-tensor-operators.scm")))
+  ((name s:+)
+   (definers ("deep-learning/primitive-scheme-operators.scm"))
+   (referrers
+    ("deep-learning/primitive-dual-operators.scm"
+     "deep-learning/extended-tensor-operators.scm"
+     "deep-learning/duals.scm")))
+  ((name s:-) (definers ("deep-learning/primitive-scheme-operators.scm"))
+              (referrers ("deep-learning/primitive-dual-operators.scm")))
+  ((name s:/) (definers ("deep-learning/primitive-scheme-operators.scm"))
+              (referrers ("deep-learning/primitive-dual-operators.scm")))
+  ((name s:<)
+   (definers ("deep-learning/primitive-scheme-operators.scm"))
+   (referrers
+    ("deep-learning/tensors.scm"
+     "deep-learning/primitive-dual-operators.scm")))
+  ((name s:<=)
+   (definers ("deep-learning/primitive-scheme-operators.scm"))
+   (referrers
+    ("deep-learning/tensors.scm"
+     "deep-learning/primitive-dual-operators.scm")))
+  ((name s:=)
+   (definers ("deep-learning/primitive-scheme-operators.scm"))
+   (referrers
+    ("deep-learning/primitive-dual-operators.scm"
+     "deep-learning/extended-tensor-operators.scm")))
+  ((name s:>) (definers ("deep-learning/primitive-scheme-operators.scm"))
+              (referrers ("deep-learning/primitive-dual-operators.scm")))
+  ((name s:>=) (definers ("deep-learning/primitive-scheme-operators.scm"))
+               (referrers ("deep-learning/primitive-dual-operators.scm")))
+  ((name s:exp) (definers ("deep-learning/primitive-scheme-operators.scm"))
+                (referrers ("deep-learning/primitive-dual-operators.scm")))
+  ((name s:expt) (definers ("deep-learning/primitive-scheme-operators.scm"))
+                 (referrers ("deep-learning/primitive-dual-operators.scm")))
+  ((name s:log) (definers ("deep-learning/primitive-scheme-operators.scm"))
+                (referrers ("deep-learning/primitive-dual-operators.scm")))
+  ((name s:sqrt) (definers ("deep-learning/primitive-scheme-operators.scm"))
+                 (referrers ("deep-learning/primitive-dual-operators.scm")))
   ((name same-color?) (definers ("abstracting-a-domain/piece"))
                       (referrers ()))
   ((name same-dimension?) (definers ("user-defined-types/vector-arith"))
@@ -12990,7 +13298,18 @@
    (referrers
     ("user-defined-types/adventure-world"
      "user-defined-types/adventure-objects")))
-  ((name scalar?) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name scalar-within-closed-interval?)
+   (definers ("deep-learning/tensors.scm"))
+   (referrers ()))
+  ((name scalar-within-len-bounds?) (definers ("deep-learning/tensors.scm"))
+                                    (referrers ()))
+  ((name scalar?)
+   (definers ("deep-learning/duals.scm"))
+   (referrers
+    ("deep-learning/tensors.scm"
+     "deep-learning/primitive-dual-operators.scm"
+     "deep-learning/gradients.scm"
+     "deep-learning/extended-tensor-operators.scm")))
   ((name screen:port) (definers ("user-defined-types/adventure-substrate"))
                       (referrers ()))
   ((name screen?) (definers ("user-defined-types/adventure-substrate"))
@@ -13118,6 +13437,8 @@
      "common/package"
      "better-layering/repl"
      "automatic-differentiation/extractor")))
+  ((name shape) (definers ("deep-learning/tensors.scm"))
+                (referrers ("deep-learning/extended-tensor-operators.scm")))
   ((name shortcut-boolean-propagators)
    (definers ("propagation/primitive-propagators"))
    (referrers ()))
@@ -13326,11 +13647,15 @@
                        (referrers ()))
   ((name spread-combine) (definers ("combinators/function-combinators"))
                          (referrers ()))
+  ((name sqr) (definers ("deep-learning/extended-tensor-operators.scm"))
+              (referrers ()))
   ((name sqrt)
-   (definers ())
+   (definers ("deep-learning/extended-tensor-operators.scm"))
    (referrers
     ("automatic-differentiation/simplifier"
      "automatic-differentiation/handlers")))
+  ((name sqrt-0) (definers ("deep-learning/primitive-dual-operators.scm"))
+                 (referrers ("deep-learning/extended-tensor-operators.scm")))
   ((name sqrt-interval) (definers ("propagation/examples/intervals"))
                         (referrers ()))
   ((name sqrt-iter) (definers ("propagation/examples/example-support"))
@@ -13354,7 +13679,9 @@
   ((name start-chess-game)
    (definers ("pattern-matching-on-graphs/chess-board"))
    (referrers ()))
-  ((name state-table?) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name state-table?)
+   (definers ("deep-learning/gradients.scm"))
+   (referrers ("deep-learning/primitive-dual-operators.scm")))
   ((name step-board) (definers ("abstracting-a-domain/checkers-original"))
                      (referrers ()))
   ((name step-from) (definers ("abstracting-a-domain/checkers-original"))
@@ -13418,7 +13745,12 @@
                    (referrers ()))
   ((name sub-interval) (definers ("propagation/examples/intervals"))
                        (referrers ()))
-  ((name sub1) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name sub1)
+   (definers ("deep-learning/primitive-scheme-operators.scm"))
+   (referrers
+    ("deep-learning/tensors.scm"
+     "deep-learning/gradients.scm"
+     "deep-learning/extended-tensor-operators.scm")))
   ((name subinterval?) (definers ("propagation/examples/intervals"))
                        (referrers ()))
   ((name substitute)
@@ -13434,6 +13766,10 @@
    (referrers ("exploratory-behavior/analyze" "continuations/analyze-extra")))
   ((name suffer!) (definers ("user-defined-types/adventure-objects"))
                   (referrers ()))
+  ((name sum) (definers ("deep-learning/extended-tensor-operators.scm"))
+              (referrers ()))
+  ((name sum-1) (definers ("deep-learning/extended-tensor-operators.scm"))
+                (referrers ()))
   ((name summarize-failing-result) (definers ("common/simple-tests"))
                                    (referrers ()))
   ((name summarize-failing-results) (definers ("common/simple-tests"))
@@ -13447,6 +13783,8 @@
    (referrers ("abstracting-a-domain/game-repl")))
   ((name summarize-test-results) (definers ("common/simple-tests"))
                                  (referrers ()))
+  ((name summed) (definers ("deep-learning/extended-tensor-operators.scm"))
+                 (referrers ()))
   ((name support-layer)
    (definers ("dependencies/support-layer"))
    (referrers ("propagation/ui" "propagation/support-extra")))
@@ -13574,7 +13912,7 @@
   ((name system-global-environment)
    (definers ())
    (referrers
-    ("layers/units" "deep-learning/0-duals"
+    ("layers/units" "deep-learning/primitive-scheme-operators.scm"
                     "common/utils"
                     "common/overrides"
                     "common/operators")))
@@ -13704,8 +14042,11 @@
    (referrers ()))
   ((name template-pattern?) (definers ("user-defined-types/templates"))
                             (referrers ()))
-  ((name tensor) (definers ("deep-learning/0-duals")) (referrers ()))
-  ((name tensor?) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name tensor) (definers ("deep-learning/tensors.scm")) (referrers ()))
+  ((name tensor-above-rank-0?) (definers ("deep-learning/tensors.scm"))
+                               (referrers ()))
+  ((name tensor?) (definers ("deep-learning/tensors.scm"))
+                  (referrers ("deep-learning/extended-tensor-operators.scm")))
   ((name test-cell-content!) (definers ("propagation/cells"))
                              (referrers ("propagation/premises")))
   ((name texpr-expr) (definers ("unification/type-resolver")) (referrers ()))
@@ -13762,7 +14103,10 @@
    (referrers
     ("user-defined-types/adventure-world"
      "user-defined-types/adventure-objects")))
-  ((name tlen) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name tlen) (definers ("deep-learning/tensors.scm"))
+               (referrers ("deep-learning/extended-tensor-operators.scm")))
+  ((name tmap) (definers ("deep-learning/tensors.scm"))
+               (referrers ("deep-learning/extended-tensor-operators.scm")))
   ((name token->tree) (definers ("common/pretty-printer")) (referrers ()))
   ((name token-width) (definers ("common/pretty-printer")) (referrers ()))
   ((name token?) (definers ("common/pretty-printer")) (referrers ()))
@@ -13784,7 +14128,9 @@
    (definers ("user-defined-types/operations" "common/operations"))
    (referrers
     ("propagation/primitive-propagators" "automatic-differentiation/utils")))
-  ((name tref) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name tref) (definers ("deep-learning/tensors.scm"))
+               (referrers ("deep-learning/extended-tensor-operators.scm")))
+  ((name trefs) (definers ("deep-learning/tensors.scm")) (referrers ()))
   ((name trie-edge-alist) (definers ("common/trie")) (referrers ()))
   ((name trie-entries) (definers ("common/trie")) (referrers ()))
   ((name trie-has-value?) (definers ("common/trie")) (referrers ()))
@@ -13800,7 +14146,8 @@
                 (referrers ()))
   ((name truncate) (definers ())
                    (referrers ("propagation/examples/hms-dms-radians")))
-  ((name truncated-dual) (definers ("deep-learning/0-duals")) (referrers ()))
+  ((name truncated-dual) (definers ("deep-learning/gradients.scm"))
+                         (referrers ()))
   ((name try-history) (definers ("abstracting-a-domain/game-repl"))
                       (referrers ()))
   ((name try-rule) (definers ("term-rewriting/rules"))
@@ -13967,7 +14314,7 @@
    (definers ())
    (referrers
     ("unification/type-resolver" "propagation/search"
-                                 "deep-learning/0-duals"
+                                 "deep-learning/primitive-dual-operators.scm"
                                  "common/simple-tests"
                                  "common/operators"
                                  "combinators/function-combinators")))
@@ -13984,7 +14331,8 @@
    (referrers
     ("interpreter-with-continuations/rtdata-extra"
      "generic-interpreter/shared-rtdata"
-     "deep-learning/0-duals"
+     "deep-learning/tensors.scm"
+     "deep-learning/duals.scm"
      "better-layering/rtdata-extra")))
   ((name vector->list)
    (definers ())
@@ -14001,12 +14349,15 @@
    (definers ())
    (referrers
     ("user-defined-types/vector-arith"
-     "deep-learning/0-duals"
+     "deep-learning/tensors.scm"
+     "deep-learning/gradients.scm"
      "automatic-differentiation/extractor")))
   ((name vector-map)
    (definers ())
    (referrers
-    ("user-defined-types/vector-arith" "user-defined-types/values")))
+    ("user-defined-types/vector-arith" "user-defined-types/values"
+                                       "deep-learning/tensors.scm"
+                                       "deep-learning/gradients.scm")))
   ((name vector-predicate-element)
    (definers ("user-defined-types/vector-arith"))
    (referrers ()))
@@ -14017,19 +14368,25 @@
    (referrers
     ("user-defined-types/vector-arith"
      "generic-interpreter/shared-rtdata"
-     "deep-learning/0-duals"
+     "deep-learning/tensors.scm"
+     "deep-learning/gradients.scm"
+     "deep-learning/duals.scm"
      "automatic-differentiation/extractor")))
   ((name vector-set!)
    (definers ())
    (referrers
-    ("generic-interpreter/shared-rtdata" "exploratory-behavior/rtdata")))
+    ("generic-interpreter/shared-rtdata"
+     "exploratory-behavior/rtdata"
+     "deep-learning/extended-tensor-operators.scm")))
   ((name vector-template) (definers ("user-defined-types/vector-arith"))
                           (referrers ()))
   ((name vector?)
    (definers ("user-defined-types/tags"))
    (referrers
     ("generic-interpreter/shared-rtdata"
-     "deep-learning/0-duals"
+     "deep-learning/tensors.scm"
+     "deep-learning/gradients.scm"
+     "deep-learning/duals.scm"
      "common/pretty-printer"
      "automatic-differentiation/extractor")))
   ((name vistas-here) (definers ("user-defined-types/adventure-objects"))
@@ -14143,9 +14500,13 @@
   ((name zero?)
    (definers ())
    (referrers
-    ("deep-learning/0-duals" "better-layering/units-layer"
-                             "better-layering/provenance"
-                             "automatic-differentiation/handlers")))
+    ("deep-learning/tensors.scm" "deep-learning/gradients.scm"
+                                 "deep-learning/extended-tensor-operators.scm"
+                                 "better-layering/units-layer"
+                                 "better-layering/provenance"
+                                 "automatic-differentiation/handlers")))
+  ((name zeroes) (definers ("deep-learning/extended-tensor-operators.scm"))
+                 (referrers ()))
   ((name ~<?) (definers ("common/utils"))
               (referrers ("propagation/examples/intervals")))
   ((name ~=?)
