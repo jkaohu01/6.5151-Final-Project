@@ -300,6 +300,19 @@ Tests:
 
 |#
 
+(define -
+  (ext2 --0-0 0 0))
+
+#|
+Tests:
+(numerize (- #(1 2 3) 2))
+;Value: #(-1 0 1)
+
+(numerize (- #(10 20 30) #(10 20 30)))
+;Value: #(0 0 0)
+
+|#
+
 ;; extends multiplication operator to operate on two tensors
 ;; to produce one tensor. The multiplication operation acts
 ;; on the scalars of each tensor. For two equal shaped tensors,
@@ -335,6 +348,16 @@ Tests:
 
 (numerize (* #(#(1 2 3) #(10 20 30)) #(-1 -2 -3)))
 ;Value: #(#(-1 -4 -9) #(-10 -40 -90))
+
+|#
+
+(define /
+  (ext2 /-0-0 0 0))
+
+#|
+Tests:
+(numerize (/ #(10 20 30) #(2 5 3)))
+;Value: #(5 4 10)
 
 |#
 
