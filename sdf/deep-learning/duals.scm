@@ -68,19 +68,24 @@
 ;; procedure is invoked on scalars that were not produced by anything
 ;; (in other words, the inputs)
 ;; ---------------------------------------------------------------------
-;; scalar-self: the scalar leaf of a differentiable object, it
-;; represents the current scalar node accumulator: a multiplicative
-;; accumulator for the gradient components during chain rule
+;; scalar-self: the scalar leaf of a differentiable object, it represents
+;;              the current scalar node which should be an input to a
+;;              function we are taking the gradient of
+;; accumulator: a multiplicative accumulator for the gradient components
+;;              during chain rule, at this point in time it represents
+;;              the partial derivative of one of the outputs of the function
+;;              with respect to scalar-self
 ;; state-table: a state table for some differentiable. The table will
-;; be mutated and returned afterwards
+;;              be mutated and returned afterwards
 (define (end-of-chain scalar-self accumulator state-table)
   (check-link-input-types scalar-self accumulator state-table end-of-chain)
-  (let ((scalar-lookup (hash-table-ref/default state-table scalar-self 0.0)))
+  (let ((sum-of-partial-derivatives-wrt-self
+         (hash-table-ref/default state-table scalar-self 0.0)))
+    (guarantee number? sum-of-partial-derivatives-wrt-self end-of-chain)
     ;; NOTE1: the book uses hash-set in Racket which functionally modifies a
     ;; hash-table instead of mutating the original. This does not exist in MIT-Scheme
     ;; but it seems that for this scenario, ordinary mutation of the hash table is equivalent
     ;; given that the original, unmodified hash table is never used in the Racket version
     ;; NOTE2: the + operator here is the extended addition operater acting on tensors
-    (hash-table-set! state-table scalar-self (+ accumulator scalar-lookup))
+    (hash-table-set! state-table scalar-self (s:+ accumulator sum-of-partial-derivatives-wrt-self))
     state-table))
-

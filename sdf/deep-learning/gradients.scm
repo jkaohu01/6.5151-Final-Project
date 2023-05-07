@@ -42,8 +42,8 @@ truncated dual := like a dual but its link-component is the end-of-chain
                        (vector-map (lambda (vector-element)
                                      (differentiable-map f vector-element))
                                    object)))
-   (else (error object
-                "object passed into differentiable-map is not a differentiable object"))))
+   (else
+    (bad-arg-error 'object 'differentiable-map))))
 
 ;; Converts a scalar object to a truncated dual
 (define (truncated-dual object)
@@ -150,8 +150,8 @@ technically it will include every scalar d that produced y.
    ((vector? y)
     ;; recursive case: recurse until we reach a scalar 
     (gradient-state-vec y (sub1 (vector-length y)) state-table))
-   (else (error object
-                "object passed into gradient-state is not a differentiable object"))))
+   (else
+    (bad-arg-error 'y 'gradient-state))))
 
 ;; Helper for gradient-state that explores all the branches of the differentiable
 ;; list y in index order and updates the state-table appropriately

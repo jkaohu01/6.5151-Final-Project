@@ -22,6 +22,9 @@ along with SDF.  If not, see <https://www.gnu.org/licenses/>.
 |#
 ;; -*-Scheme-*-
 (define-load-spec deep-learning
+  ;; the ordering of these matters, do not modify order.
+  ;; when adding new files, add them to the bottom
+  "error-messages.scm"
   "primitive-scheme-operators.scm"
   "duals.scm"
   "primitive-dual-operators.scm"
