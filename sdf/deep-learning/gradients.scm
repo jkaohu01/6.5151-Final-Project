@@ -65,8 +65,8 @@ truncated dual := like a dual but its link-component is the end-of-chain
 ;; theta: the argument to f with respect to which we're seeking the gradient.
 ;;        theta must be a tensor (which guarantees it is a differentiable)
 (define (gradient-of f theta)
-  (guarantee procedure? f gradient)
-  (guarantee maybe-differentiable? theta gradient)
+  (guarantee procedure? f gradient-of)
+  (guarantee maybe-differentiable? theta gradient-of)
   ;; The let statement below transforms the theta (differentiable) into a truncated
   ;; differentiable that abandons prior links that the scalars in theta may contain.
   ;; This allows us to ignore the history of theta and focus on what f performs
