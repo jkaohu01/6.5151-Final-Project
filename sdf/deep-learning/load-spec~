@@ -31,5 +31,4 @@ along with SDF.  If not, see <https://www.gnu.org/licenses/>.
   "tensors.scm"
   "gradients.scm"
   "extended-tensor-operators.scm"
-  "back-prop.scm"
   )
