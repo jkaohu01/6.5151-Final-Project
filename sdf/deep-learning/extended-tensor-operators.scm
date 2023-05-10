@@ -1,23 +1,3 @@
-;; A simple function for creating 2d lines
-;; ---------------------------------------
-;; x: an input number to a line function
-(define (line x)
-  ;; theta: the 2 parameters to the line: m, b in y = mx + b
-  ;;        in list form
-  ;; output: y = mx + b
-  (lambda (theta)
-    (+ (* (ref theta 0) x) (ref theta 1))))
-
-#|
-Tests:
-(numerize ((line 7.3) (list 1.0 0)))
-;Value: 7.3
-
-(numerize ((line 2) (list 4 -1)))
-Value: 7
-
-|#
-
 ;;; =================================================================
 ;;; Operator Extensions to Tensors
 ;;; See Interlude I and Interlude V of "The Little Learner" for

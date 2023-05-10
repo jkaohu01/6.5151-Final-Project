@@ -32,6 +32,6 @@ along with SDF.  If not, see <https://www.gnu.org/licenses/>.
   "gradients.scm"
   "extended-tensor-operators.scm"
   ;; uncomment the following line to use the hyperparams file
-  ;; "hyperparams.scm
+  "hyperparams.scm"
   "back-prop.scm"
   )
