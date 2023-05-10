@@ -57,7 +57,7 @@ Then that result is sent to g with the first j values of theta removed
      (block-compose
       (block-fn ba)
       (block-fn bb)
-      (block-ls ba))
+      (len (block-ls ba)))
      (append
       (block-ls ba)
       (block-ls bb)))))
@@ -145,14 +145,21 @@ The bias tensor is initialized to 0.0 and the weight tensor is random scalars wi
 (define zero
   (zero-tensor (list 5)))
 
-
+(define t-random
+  (lambda (t)
+    (s:- (random 2.0) 1.0)))
+  
+(define random-tensor
+  (lambda (s)
+    (let ((t (zero-tensor s)))
+      (differentiable-map t-random t))))  
 
 (define init-shape
   (lambda (s)
     (cond
-     ((= s 1) (zero-tensor s))
-     ((= s 2)
-      (random-tensor 0.0 (/ 2 (ref s 1)) s)))))
+     ((= (len s) 1) (zero-tensor s))
+     ((= (len s) 2)
+      (random-tensor s)))))
 
 (define iris-classifier
   (block-fn iris-network))
