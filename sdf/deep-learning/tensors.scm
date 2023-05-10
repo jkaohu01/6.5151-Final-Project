@@ -443,3 +443,19 @@ Tests:
 ;Value: #(0 0 0)
 
 |#
+
+(define build-tensor
+  (lambda (s f)
+    (built-tensor f s '())))
+
+(define built-tensor
+  (lambda (f s idx)
+    (cond
+     ((= (length s) 1)
+      (make-initialized-vector (ref s 0)
+			       (lambda (i)
+				 (f (append idx (list i))))))
+     (else
+      (make-initialized-vector (ref s 0)
+			       (lambda (i)
+				 (built-tensor f (refr s 1) (append idx (list i)))))))))
