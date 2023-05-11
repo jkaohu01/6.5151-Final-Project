@@ -404,11 +404,30 @@ Tests:
 
 |#
 
+;;; Correction from book website (subtle bug caused otherwise when
+;;; extending *-2-1)
+;;; operates on two rank 1 tensors and produces a rank 1 dual
+(define *-1-1
+  (ext2 * 1 1))
+
+#|
+Tests:
+(numerize (*-1-1 #(3) #(2)))
+;Value: #(6)
+
+(numerize (*-1-1 #(3 1) #(2 5)))
+;Value: #(6 5)
+
+|#
+
+
 ;; extension of extended * operator that applies
 ;; extended * operator on rank 2 tensors in first argument
-;; with rank 1 tensors in second argument
+;; with rank 1 tensors in second argument, note that
+;; this is corrected on the book website. This produces
+;; correct results for matrix vector multiplication now
 (define *-2-1
-  (ext2 * 2 1))
+  (ext2 *-1-1 2 1))
 
 #|
 Tests:
@@ -416,7 +435,7 @@ Tests:
 ;Value: #(#(#(10 20)) #(#(30 40)))
 
 (numerize (*-2-1 #(#(1 2) #(3 4)) #(10 20)))
-;Value: #(#(10 20) #(60 80))
+;Value: #(#(10 40) #(30 80))
 
 (numerize (*-2-1 #(#(1 2) #(3 4)) #(#(10) #(20))))
 ;Value: #(#(#(#(10 20)) #(#(30 40))) #(#(#(20 40)) #(#(60 80))))
@@ -424,6 +443,10 @@ Tests:
 (numerize (*-2-1 #(#(8 1) #(7 3) #(5 4)) #(#(6 2) #(4 9) #(3 8))))
 ;Value: #(#(#(48 2) #(42 6) #(30 8)) #(#(32 9) #(28 27) #(20 36)) #(#(24 8) #(21 24) #(15 32)))
 ; see p. 192 of "Little Learner" for explanation of this exact test
+
+(numerize (*-2-1 #(#(3 4 5) #(7 8 9)) #(2 4 3)))
+;Value: #(#(6 16 15) #(14 32 27))
+; see p. 190 of "Little Learner"
 
 |#
 

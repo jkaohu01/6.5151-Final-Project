@@ -3,35 +3,79 @@
 #|
 Takes scalar and return 0.0 if negative otherwise it is the identity function
 |#
-
-(define rectify-0
-  (lambda (s)
-    (cond
-     ((<-0-0 s 0.0) 0.0)
-     (else s))))
+(define (rectify-0 scalar)
+  (cond
+   ((<-0-0 scalar 0.0) 0.0)
+   (else scalar)))
 
 #|
 < is not overwritten so <-0-0 is needed, this is just a note that if this ever becomes an issue to overwrite <
+Tests:
+(rectify-0 4)
+;Value: 4
+
+(rectify-0 -1)
+;Value: 0.
+
 |#
 
+;;; extends rectify to operate on tensors of arbitrary size
+;;; operates on the scalars of the tensor
 (define rectify
   (ext1 rectify-0 0))
 
+#|
+Tests:
+(rectify #(0 0.1 -0.1 3 -2))
+;Value: #(0 .1 0. 3 0.)
+
+(rectify #(0 -2 1 -1 1))
+;Value: #(0 0. 1 0. 1)
+
+|#
+
+;;; Takes a tensor t and a theta (with weights and bias)
+;;; and applies a linear operation of weights to the tensor t
+;;; via the dot product and addition of the bias
+;;; (ref theta 0) and t must be tensors of rank 1
 (define linear-1-1
   (lambda (t)
+    (guarantee (correct-rank-tensor? 1) t linear-1-1)
     (lambda (theta)
+      (guarantee (correct-rank-tensor? 1) (ref theta 0))
       (+ (dot-product (ref theta 0) t) (ref theta 1)))))
 
+#|
+Tests:
+(numerize ((linear-1-1 #(2 3)) (list #(-1 1) #(0.1))))
+;Value: #(1.1)
+
+(numerize ((linear-1-1 #(2 3)) (list #(1 -1) #(0.1))))
+;Value #(-.9)
+
+|#
+
+;; applies relu on tensor 1 output after applying linear operation
 (define relu-1-1
   (lambda (t)
     (lambda (theta)
       (rectify ((linear-1-1 t) theta)))))
 
+#|
+Tests:
+(numerize ((relu-1-1 #(2 3)) (list #(-1 1) #(0.1))))
+;Value: #(1.1)
+
+(numerize ((relu-1-1 #(2 3)) (list #(1 -1) #(0.1))))
+;Value: #(0.)
+
+|#
+
 #|theta-0 is the weights
 theta-1 is the bias|#
 
 ((relu-1-1 (tensor 2.0 1.0 3.0))
- (list (tensor 7.1 4.3 -6.4) 0.6));Value: 0.0
+ (list (tensor 7.1 4.3 -6.4) 0.6))      ;Value: 0.0
 
 (numerize (rectify
 	   (+
@@ -104,26 +148,48 @@ Law of Dense Layers: A dense layer function invokes m neurons on an n-element in
 
 #|
 if w is a tensor of shape (m n) and t is of shape (n) the output will be shape (m)
+This is the matrix vector multiplication operation where w is a matrix and t is a
+column vector
 |#
-
 (define dot-product-2-1
   (lambda (w t)
     (sum
      (*-2-1 w t))))
 
-(numerize (dot-product-2-1
-	   (tensor (tensor 2.0 1.0 3.1) (tensor 3.7 4.0 6.1))
-	   (tensor 1.3 0.4 3.3))
-	  ) ;Value: (13.23 26.54)
-#|t is shape (n) and theta-0 is shape (m n) theta-1 is shape (m) then ((linear t) theta) is shape (m)|#
+#|
+Tests:
+(numerize (dot-product-2-1 #(#(3 2 1) #(-3 -2 -1) #(6 7 8)) #(0 0 1)))
+;Value: #(1 -1 8)
 
+(numerize (dot-product-2-1 #(#(3 2 1) #(-3 -2 -1) #(6 7 8)) #(0 1 0)))
+;Value: #(2 -2 7)
+
+(numerize (dot-product-2-1 #(#(3 2 1) #(-3 -2 -1) #(6 7 8)) #(1 0 0)))
+;Value: #(3 -3 6)
+
+|#
+
+
+
+(numerize (dot-product-2-1
+	       (tensor (tensor 2.0 1.0 3.1) (tensor 3.7 4.0 6.1))
+	       (tensor 1.3 0.4 3.3))
+	      )                             ;Value: (13.23 26.54)
+#|t is shape (n) and theta-0 is shape (m n) theta-1 is shape (m) then ((linear t) theta) is shape (m)
+linear applies matrix-vector multiplication with the weights matrix and a tensor. Then adds
+the bias vector. Essentially this multiplies out one layer of inputs with its weights and adds
+a bias vector.
+|#
 (define linear
   (lambda (t)
     (lambda (theta)
       (+ (dot-product-2-1 (ref theta 0) t) (ref theta 1)))))
 
 
-#|relu is ame as relu-1-1 but it uses linear instead of linear-1-1|#
+#|relu is ame as relu-1-1 but it uses linear instead of linear-1-1
+This applies the relu function to the output of the linear operation Wt + b
+Where W is a matrix of weights, t is a column vector and b is a column vector
+|#
 
 (define relu
   (lambda (t)

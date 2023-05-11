@@ -41,9 +41,9 @@ Then that result is sent to g with the first j values of theta removed
   (lambda (f g j)
     (lambda (t)
       (lambda (theta)
-	((g
-	  ((f t) theta))
-	 (drop theta j))))))
+	    ((g
+	      ((f t) theta))
+	     (drop theta j))))))
 
 #|
 (block-compose relu relu 2) is the same as 2-relu
