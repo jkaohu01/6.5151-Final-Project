@@ -9,3 +9,5 @@
 
 (define learning-rate 'undefined-learning-rate)
 (define revs 'undefined-revs)
+(define batch-size 'undefined-batch-size)
+
