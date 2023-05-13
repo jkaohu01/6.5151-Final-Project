@@ -154,6 +154,9 @@ The bias tensor is initialized to 0.0 and the weight tensor is random scalars wi
     (let ((t (zero-tensor s)))
       (differentiable-map t-random t))))  
 
+;; creates a random theta for a neural net given a shape
+;; does so in such a way to avoid exploding or vanishing
+;; problem (see Little Learner p. 259 - 264)
 (define init-shape
   (lambda (s)
     (cond
@@ -179,4 +182,60 @@ The bias tensor is initialized to 0.0 and the weight tensor is random scalars wi
 
 (define revs 2000)
 (define learning-rate 0.0002)
+
+;;;=============================================
+;;; Attempt to create random initialization
+;;; from "Little Learner"
+;;;=============================================
+
+;; value of pi
+(define pi (s:* 2 (asin 1)))
+
+;; variable storing whether we have a value
+;; to use from the box-muller method for
+;; generating random-standard-normal values
+(define random-cache-full? #f)
+
+;; generates random number from 0 to 1 from
+;; standard normal distribution (mean 0, variance 1)
+;; using box-muller method
+(define (random-standard-normal)
+  (if random-cache-full?
+      ;; there is a cache value, return it
+      (begin
+        ;; save cache value
+        (let ((cache-value random-cache-full?))
+          ;; flush cache
+          (set! random-cache-full? #f)
+          ;; return cache value
+          cache-value))
+      ;; there is no cache value, generate two values, store one
+      ;; first, generate two uniform values from 0 to 1
+      (let ((u1 (random 1.0))
+            (u2 (random 1.0)))
+        ;; generate two standard normal values using uniform values
+        (let ((z0 (s:* (s:sqrt (s:* -2 (s:log u1))) (cos (s:* 2 pi u2))))
+              (z1 (s:* (s:sqrt (s:* -2 (s:log u1))) (sin (s:* 2 pi u2)))))
+          ;; store one value in cache
+          (set! random-cache-full? z1)
+          ;; return the other value
+          z0))))
+
+;; generates a random number from a normal distribution
+;; with mean mu and standard deviation sigma
+(define random-normal
+  ;; mu is the mean
+  ;; sigma is the standard deviation (square root of variance)
+  (lambda (mu sigma)
+    ;; assumes we can generate a number from standard normal distribution
+    ;; and then we simply converty this to a number from a normal distribution
+    (s:+ (real-component mu) (s:* (real-component sigma) (random-standard-normal)))))
+
+;; uses normal distribution to generate a random tensor
+;; with a specific shape. The normal distribution will
+;; the mean and variance from the inputs
+(define (random-tensor2 mean variance shape)
+  (build-tensor shape
+                (lambda (tidx)
+                  (random-normal mean (s:sqrt variance)))))
 

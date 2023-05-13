@@ -16,6 +16,8 @@
 (define s:expt (base-scheme 'expt))
 (define s:log (base-scheme 'log))
 (define s:sqrt (base-scheme 'sqrt))
+(define s:sin (base-scheme 'sin))
+(define s:cos (base-scheme 'cos))
 
 ;; Subtracts 1 from the numeric value
 (define (sub1 numeric-value)
