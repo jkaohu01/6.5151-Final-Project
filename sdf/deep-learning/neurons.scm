@@ -74,6 +74,9 @@ Tests:
 #|theta-0 is the weights
 theta-1 is the bias|#
 
+#|
+More Tests:
+
 ((relu-1-1 (tensor 2.0 1.0 3.0))
  (list (tensor 7.1 4.3 -6.4) 0.6))      ;Value: 0.0
 
@@ -87,6 +90,10 @@ theta-1 is the bias|#
  (list (tensor 1.0) -1.0)) ;Value: 0.0
 
 #|0.5 is an x coord for this relu graph and the result 0.0 is the y coord|#
+|#
+
+#|
+Sample Little Learner code (not needed):
 
 (define half-strip
   (lambda (x theta)
@@ -123,6 +130,8 @@ theta-1 is the bias|#
 
 (numerize (test-graph 1.5)
 	  ) ;Value: 1.0
+
+|#
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -167,14 +176,13 @@ Tests:
 (numerize (dot-product-2-1 #(#(3 2 1) #(-3 -2 -1) #(6 7 8)) #(1 0 0)))
 ;Value: #(3 -3 6)
 
-|#
-
-
-
 (numerize (dot-product-2-1
 	       (tensor (tensor 2.0 1.0 3.1) (tensor 3.7 4.0 6.1))
 	       (tensor 1.3 0.4 3.3))
-	      )                             ;Value: (13.23 26.54)
+	      )                             ;Value: #(13.23 26.54)
+
+|#
+
 #|t is shape (n) and theta-0 is shape (m n) theta-1 is shape (m) then ((linear t) theta) is shape (m)
 linear applies matrix-vector multiplication with the weights matrix and a tensor. Then adds
 the bias vector. Essentially this multiplies out one layer of inputs with its weights and adds
@@ -185,6 +193,12 @@ a bias vector.
     (lambda (theta)
       (+ (dot-product-2-1 (ref theta 0) t) (ref theta 1)))))
 
+#|
+Tests:
+(numerize ((linear #(0 1 1)) (list #(#(-1 1 4) #(-1 2 2) #(-1 3 1) #(-1 4 3)) #(100 200 300 400))))
+;Value: #(105 204 304 407)
+
+|#
 
 #|relu is ame as relu-1-1 but it uses linear instead of linear-1-1
 This applies the relu function to the output of the linear operation Wt + b
